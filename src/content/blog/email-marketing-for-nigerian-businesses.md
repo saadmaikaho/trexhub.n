@@ -1,7 +1,7 @@
 ---
 title: 'Why Email Marketing is Still the Highest ROI Channel for Nigerian Businesses'
 pubDate: 2024-12-15
-author: 'TrexHub Team'
+author: 'TrexLead Team'
 authImage: '/Logo.svg'
 image: 'image5.png'
 tags: ['Email Marketing', 'WhatsApp Marketing', 'Lead Nurturing']
@@ -63,4 +63,4 @@ WhatsApp is particularly powerful in Nigeria because it's the primary communicat
 
 ---
 
-Ready to turn your contact list into a consistent revenue channel? [Talk to TrexHub](/contact) about our Email & WhatsApp Marketing service.
+Ready to turn your contact list into a consistent revenue channel? [Talk to TrexLead](/contact) about our Email & WhatsApp Marketing service.

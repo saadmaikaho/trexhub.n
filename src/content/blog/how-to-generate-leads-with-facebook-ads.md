@@ -1,7 +1,7 @@
 ---
 title: 'How to Generate Quality Leads with Facebook Ads in Nigeria'
 pubDate: 2025-03-10
-author: 'TrexHub Team'
+author: 'TrexLead Team'
 authImage: '/Logo.svg'
 image: 'image1.png'
 tags: ['Facebook Ads', 'Lead Generation', 'Nigeria']
@@ -44,4 +44,4 @@ The biggest mistake Nigerian businesses make: they get a lead and wait days to f
 
 ---
 
-Want us to build and manage your Facebook Ads campaigns? [Book a free strategy call](/contact) with the TrexHub team.
+Want us to build and manage your Facebook Ads campaigns? [Book a free strategy call](/contact) with the TrexLead team.

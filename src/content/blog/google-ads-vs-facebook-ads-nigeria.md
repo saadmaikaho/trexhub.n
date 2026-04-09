@@ -1,7 +1,7 @@
 ---
 title: 'Google Ads vs Facebook Ads: Which is Better for Your Nigerian Business?'
 pubDate: 2025-01-28
-author: 'TrexHub Team'
+author: 'TrexLead Team'
 authImage: '/Logo.svg'
 image: 'image3.png'
 tags: ['Google Ads', 'Facebook Ads', 'PPC', 'Nigeria']

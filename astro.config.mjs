@@ -7,7 +7,7 @@ import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://trexhub.ng",
+  site: "https://trexlead.ng",
   integrations: [tailwind()],
   output: 'server',
   adapter: vercel(),

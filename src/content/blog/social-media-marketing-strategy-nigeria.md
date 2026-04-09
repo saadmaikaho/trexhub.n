@@ -1,7 +1,7 @@
 ---
 title: 'How to Build a Social Media Strategy That Actually Grows Your Business in Nigeria'
 pubDate: 2025-01-10
-author: 'TrexHub Team'
+author: 'TrexLead Team'
 authImage: '/Logo.svg'
 image: 'image4.png'
 tags: ['Social Media', 'Marketing Strategy', 'Nigeria']
@@ -58,4 +58,4 @@ Organic social builds trust and community over time. Paid social (Facebook/Insta
 
 ---
 
-Want a done-for-you social media management service? [Get in touch with TrexHub](/contact) and we'll handle everything from strategy to content creation to community management.
+Want a done-for-you social media management service? [Get in touch with TrexLead](/contact) and we'll handle everything from strategy to content creation to community management.

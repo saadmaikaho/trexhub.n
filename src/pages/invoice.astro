@@ -1,6 +1,6 @@
 ---
 // Private invoice/quotation generator — not linked anywhere on the site
-// Password: trexhub2025
+// Password: trexlead2025
 ---
 
 <!DOCTYPE html>
@@ -8,7 +8,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Invoice Generator | TrexHub</title>
+  <title>Invoice Generator | TrexLead</title>
   <meta name="robots" content="noindex, nofollow" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -133,7 +133,7 @@
 <!-- LOGIN -->
 <div id="login-screen">
   <div class="login-box">
-    <img src="/Logo.svg" alt="TrexHub" style="height:36px;margin-bottom:10px;" />
+    <img src="/Logo.svg" alt="TrexLead" style="height:36px;margin-bottom:10px;" />
     <p>Invoice Generator — Admin Only</p>
     <input type="password" id="pwd-input" placeholder="Enter password" />
     <div class="login-error" id="login-error">Wrong password. Try again.</div>
@@ -145,7 +145,7 @@
 <div id="app">
   <div class="app-bar">
     <div style="display:flex;align-items:center;gap:12px;">
-      <img src="/Logo.svg" alt="TrexHub" style="height:28px;filter:brightness(0) invert(1);" />
+      <img src="/Logo.svg" alt="TrexLead" style="height:28px;filter:brightness(0) invert(1);" />
       <span style="color:white;font-size:14px;font-weight:600;">Invoice Generator</span>
     </div>
     <div class="app-bar-actions">
@@ -232,7 +232,7 @@
 </div>
 
 <script is:inline>
-  const PWD = "trexhub2025";
+  const PWD = "trexlead2025";
 
   function checkPassword() {
     if (document.getElementById("pwd-input").value === PWD) {
@@ -342,7 +342,7 @@
 
     document.getElementById("invoice-doc").innerHTML =
       '<div class="inv-top">' +
-        '<img src="/Logo.svg" alt="TrexHub" style="height:44px;margin-bottom:6px;" />' +
+        '<img src="/Logo.svg" alt="TrexLead" style="height:44px;margin-bottom:6px;" />' +
         '<div class="inv-logo-sub">Digital Marketing Agency</div>' +
         '<div class="inv-title">Official Quotation / Invoice</div>' +
         '<div class="inv-meta-line">' +
@@ -396,12 +396,12 @@
       '</div>' : '') +
 
       '<div class="inv-footer">' +
-        '<img src="/Logo.svg" alt="TrexHub" style="height:32px;margin-bottom:8px;" /><br/>' +
+        '<img src="/Logo.svg" alt="TrexLead" style="height:32px;margin-bottom:8px;" /><br/>' +
         '<strong>Prepared by:</strong><br/>' +
-        'TrexHub Digital Marketing Agency' +
+        'TrexLead Digital Marketing Agency' +
         '<div class="inv-footer-line">+234 8129843426</div>' +
-        '<div class="inv-footer-line">www.trexhub.ng</div>' +
-        '<div class="inv-footer-line">hello@trexhub.ng</div>' +
+        '<div class="inv-footer-line">www.trexlead.ng</div>' +
+        '<div class="inv-footer-line">hello@trexlead.ng</div>' +
       '</div>';
 
     // keep form discount display in sync

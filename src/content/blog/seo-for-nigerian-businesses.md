@@ -1,7 +1,7 @@
 ---
 title: 'SEO for Nigerian Businesses: How to Rank on Google in 2025'
 pubDate: 2025-02-20
-author: 'TrexHub Team'
+author: 'TrexLead Team'
 authImage: '/Logo.svg'
 image: 'image2.png'
 tags: ['SEO', 'Nigeria', 'Google']
@@ -50,4 +50,4 @@ Honest answer: 3–6 months to see meaningful results, 6–12 months to see sign
 
 ---
 
-Want a free SEO audit for your website? [Contact TrexHub](/contact) and we'll show you exactly where you stand and what to fix first.
+Want a free SEO audit for your website? [Contact TrexLead](/contact) and we'll show you exactly where you stand and what to fix first.
