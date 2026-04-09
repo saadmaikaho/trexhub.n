@@ -1,5 +1,5 @@
 ---
-// Private invoice generator — not linked anywhere on the site
+// Private invoice/quotation generator — not linked anywhere on the site
 // Password: trexhub2025
 ---
 
@@ -12,374 +12,227 @@
   <meta name="robots" content="noindex, nofollow" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: Arial, Helvetica, sans-serif; background: #f3f3f3; color: #191a23; }
+    body { font-family: Arial, Helvetica, sans-serif; background: #e5e5e5; color: #191a23; font-size: 14px; }
 
-    /* ── Login Screen ── */
-    #login-screen {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .login-box {
-      background: white;
-      border-radius: 20px;
-      padding: 48px;
-      width: 100%;
-      max-width: 400px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-      text-align: center;
-    }
-    .login-box .logo { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
-    .login-box .logo span { background: #b9ff66; padding: 2px 8px; border-radius: 6px; }
-    .login-box p { color: #666; margin-bottom: 28px; font-size: 14px; }
-    .login-box input {
-      width: 100%; padding: 14px 18px; border: 2px solid #e5e5e5;
-      border-radius: 12px; font-size: 16px; margin-bottom: 12px; outline: none;
-      transition: border-color 0.2s;
-    }
-    .login-box input:focus { border-color: #b9ff66; }
-    .login-box button {
-      width: 100%; padding: 14px; background: #191a23; color: white;
-      border: none; border-radius: 12px; font-size: 16px; font-weight: 600;
-      cursor: pointer; transition: background 0.2s;
-    }
-    .login-box button:hover { background: #b9ff66; color: #191a23; }
-    .login-error { color: #e53e3e; font-size: 13px; margin-top: 8px; display: none; }
+    /* ── Login ── */
+    #login-screen { min-height:100vh; display:flex; align-items:center; justify-content:center; }
+    .login-box { background:white; border-radius:16px; padding:48px; width:100%; max-width:380px; box-shadow:0 4px 24px rgba(0,0,0,0.1); text-align:center; }
+    .login-box .brand { font-size:26px; font-weight:800; margin-bottom:6px; }
+    .login-box .brand span { background:#b9ff66; padding:2px 8px; border-radius:6px; }
+    .login-box p { color:#666; font-size:13px; margin-bottom:24px; }
+    .login-box input { width:100%; padding:12px 16px; border:2px solid #e5e5e5; border-radius:10px; font-size:15px; margin-bottom:10px; outline:none; }
+    .login-box input:focus { border-color:#b9ff66; }
+    .login-box button { width:100%; padding:13px; background:#191a23; color:white; border:none; border-radius:10px; font-size:15px; font-weight:700; cursor:pointer; }
+    .login-box button:hover { background:#b9ff66; color:#191a23; }
+    .login-error { color:#e53e3e; font-size:12px; margin-top:6px; display:none; }
 
-    /* ── App ── */
-    #app { display: none; }
+    /* ── App shell ── */
+    #app { display:none; }
+    .app-bar { background:#191a23; color:white; padding:14px 28px; display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; z-index:100; }
+    .app-bar .brand { font-size:18px; font-weight:800; }
+    .app-bar .brand span { color:#b9ff66; }
+    .app-bar-actions { display:flex; gap:10px; }
+    .app-bar button { padding:8px 18px; border:none; border-radius:8px; font-weight:700; cursor:pointer; font-size:13px; }
+    .btn-print { background:#b9ff66; color:#191a23; }
+    .btn-reset { background:#333; color:white; }
 
-    .app-header {
-      background: #191a23; color: white; padding: 16px 32px;
-      display: flex; align-items: center; justify-content: space-between;
-    }
-    .app-header .brand { font-size: 20px; font-weight: 700; }
-    .app-header .brand span { color: #b9ff66; }
-    .app-header button {
-      padding: 8px 20px; background: #b9ff66; color: #191a23;
-      border: none; border-radius: 8px; font-weight: 600; cursor: pointer;
-      font-size: 14px;
-    }
-
-    .workspace {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      padding: 24px;
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-    @media (max-width: 900px) {
-      .workspace { grid-template-columns: 1fr; }
-    }
+    /* ── Layout ── */
+    .workspace { display:grid; grid-template-columns:380px 1fr; gap:20px; padding:20px; max-width:1300px; margin:0 auto; }
+    @media(max-width:900px){ .workspace{ grid-template-columns:1fr; } }
 
     /* ── Form Panel ── */
-    .form-panel {
-      background: white; border-radius: 16px; padding: 28px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-      max-height: calc(100vh - 100px); overflow-y: auto;
-    }
-    .form-panel h2 { font-size: 18px; font-weight: 700; margin-bottom: 20px; }
-    .form-section { margin-bottom: 24px; }
-    .form-section h3 {
-      font-size: 13px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.08em; color: #888; margin-bottom: 12px;
-      padding-bottom: 8px; border-bottom: 1px solid #f0f0f0;
-    }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 4px; color: #444; }
-    .form-group input, .form-group select, .form-group textarea {
-      width: 100%; padding: 10px 14px; border: 1.5px solid #e5e5e5;
-      border-radius: 10px; font-size: 14px; outline: none;
-      transition: border-color 0.2s; font-family: inherit;
-    }
-    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-      border-color: #b9ff66;
-    }
+    .form-panel { background:white; border-radius:14px; padding:24px; box-shadow:0 2px 10px rgba(0,0,0,0.06); height:fit-content; position:sticky; top:64px; max-height:calc(100vh - 80px); overflow-y:auto; }
+    .form-panel h2 { font-size:16px; font-weight:800; margin-bottom:18px; padding-bottom:10px; border-bottom:2px solid #b9ff66; }
+    .fsec { margin-bottom:18px; }
+    .fsec h3 { font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.08em; color:#888; margin-bottom:10px; }
+    .frow { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .fg { margin-bottom:10px; }
+    .fg label { display:block; font-size:12px; font-weight:700; color:#555; margin-bottom:3px; }
+    .fg input, .fg select, .fg textarea { width:100%; padding:9px 12px; border:1.5px solid #e0e0e0; border-radius:8px; font-size:13px; outline:none; font-family:inherit; transition:border-color .2s; }
+    .fg input:focus, .fg select:focus, .fg textarea:focus { border-color:#b9ff66; }
 
-    /* Items table */
-    .items-header {
-      display: grid;
-      grid-template-columns: 3fr 1fr 1fr 1fr 40px;
-      gap: 8px; font-size: 12px; font-weight: 700;
-      text-transform: uppercase; color: #888; margin-bottom: 8px;
-    }
-    .item-row {
-      display: grid;
-      grid-template-columns: 3fr 1fr 1fr 1fr 40px;
-      gap: 8px; margin-bottom: 8px; align-items: center;
-    }
-    .item-row input {
-      padding: 8px 10px; border: 1.5px solid #e5e5e5;
-      border-radius: 8px; font-size: 13px; outline: none;
-      transition: border-color 0.2s; width: 100%;
-    }
-    .item-row input:focus { border-color: #b9ff66; }
-    .item-row input[readonly] { background: #f9f9f9; color: #555; }
-    .remove-btn {
-      background: #fee2e2; color: #e53e3e; border: none;
-      border-radius: 8px; width: 32px; height: 32px;
-      cursor: pointer; font-size: 16px; display: flex;
-      align-items: center; justify-content: center;
-    }
-    .add-item-btn {
-      background: #f3f3f3; border: 1.5px dashed #ccc; color: #555;
-      padding: 10px; border-radius: 10px; width: 100%;
-      cursor: pointer; font-size: 13px; font-weight: 600;
-      margin-top: 4px; transition: all 0.2s;
-    }
-    .add-item-btn:hover { background: #b9ff66; border-color: #b9ff66; color: #191a23; }
+    /* service items */
+    .item-hdr { display:grid; grid-template-columns:1fr 60px 80px 80px 28px; gap:6px; font-size:11px; font-weight:700; text-transform:uppercase; color:#aaa; margin-bottom:6px; }
+    .item-row { display:grid; grid-template-columns:1fr 60px 80px 80px 28px; gap:6px; margin-bottom:6px; align-items:center; }
+    .item-row input { padding:7px 8px; border:1.5px solid #e0e0e0; border-radius:7px; font-size:12px; outline:none; width:100%; }
+    .item-row input:focus { border-color:#b9ff66; }
+    .item-row input[readonly] { background:#f9f9f9; color:#666; }
+    .rm-btn { background:#fee2e2; color:#e53e3e; border:none; border-radius:6px; width:26px; height:26px; cursor:pointer; font-size:14px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .add-btn { width:100%; padding:9px; background:#f5f5f5; border:1.5px dashed #ccc; border-radius:8px; font-size:12px; font-weight:700; color:#666; cursor:pointer; margin-top:4px; }
+    .add-btn:hover { background:#b9ff66; border-color:#b9ff66; color:#191a23; }
 
-    /* ── Preview Panel ── */
-    .preview-panel {
-      background: white; border-radius: 16px;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-      overflow: hidden;
-      max-height: calc(100vh - 100px);
-      overflow-y: auto;
-    }
-    .preview-toolbar {
-      padding: 14px 20px; background: #f9f9f9;
-      border-bottom: 1px solid #eee;
-      display: flex; gap: 10px; align-items: center;
-    }
-    .preview-toolbar span { font-size: 13px; font-weight: 600; color: #555; flex: 1; }
-    .btn-print {
-      padding: 8px 20px; background: #191a23; color: white;
-      border: none; border-radius: 8px; font-weight: 600;
-      cursor: pointer; font-size: 13px; transition: background 0.2s;
-    }
-    .btn-print:hover { background: #b9ff66; color: #191a23; }
+    /* discount table in form */
+    .disc-row { display:grid; grid-template-columns:80px 60px 1fr 1fr 28px; gap:6px; margin-bottom:6px; align-items:center; }
+    .disc-row input { padding:7px 8px; border:1.5px solid #e0e0e0; border-radius:7px; font-size:12px; outline:none; width:100%; }
+    .disc-row input:focus { border-color:#b9ff66; }
+    .disc-row input[readonly] { background:#f9f9f9; color:#666; }
+    .disc-hdr { display:grid; grid-template-columns:80px 60px 1fr 1fr 28px; gap:6px; font-size:11px; font-weight:700; text-transform:uppercase; color:#aaa; margin-bottom:6px; }
+
+    /* ── Preview / Document ── */
+    .preview-wrap { background:white; border-radius:14px; box-shadow:0 2px 10px rgba(0,0,0,0.06); overflow:hidden; }
+    .preview-bar { padding:12px 20px; background:#f7f7f7; border-bottom:1px solid #eee; display:flex; align-items:center; gap:10px; }
+    .preview-bar span { font-size:13px; font-weight:700; color:#555; flex:1; }
+    .preview-bar button { padding:7px 18px; background:#191a23; color:white; border:none; border-radius:8px; font-weight:700; cursor:pointer; font-size:12px; }
+    .preview-bar button:hover { background:#b9ff66; color:#191a23; }
 
     /* ── Invoice Document ── */
-    #invoice-doc {
-      padding: 48px;
-      min-height: 900px;
-    }
-    .inv-header {
-      display: flex; justify-content: space-between;
-      align-items: flex-start; margin-bottom: 40px;
-    }
-    .inv-brand { font-size: 26px; font-weight: 800; }
-    .inv-brand span { background: #b9ff66; padding: 2px 8px; border-radius: 6px; }
-    .inv-meta { text-align: right; }
-    .inv-meta h1 { font-size: 32px; font-weight: 800; color: #191a23; letter-spacing: -1px; }
-    .inv-meta .inv-number { font-size: 14px; color: #888; margin-top: 4px; }
-    .inv-meta .inv-dates { font-size: 13px; color: #555; margin-top: 8px; line-height: 1.6; }
+    #invoice-doc { padding:48px; min-height:800px; }
 
-    .inv-parties {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 32px; margin-bottom: 36px;
-    }
-    .inv-party h4 {
-      font-size: 11px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.1em; color: #888; margin-bottom: 8px;
-    }
-    .inv-party p { font-size: 14px; line-height: 1.7; color: #333; }
-    .inv-party .name { font-weight: 700; font-size: 16px; color: #191a23; }
+    .inv-top { text-align:center; margin-bottom:28px; padding-bottom:20px; border-bottom:2px solid #191a23; }
+    .inv-logo { font-size:28px; font-weight:900; margin-bottom:4px; }
+    .inv-logo span { background:#b9ff66; padding:2px 10px; border-radius:6px; }
+    .inv-logo-sub { font-size:13px; color:#555; }
+    .inv-title { font-size:18px; font-weight:800; color:#b9ff66; background:#191a23; display:inline-block; padding:4px 18px; border-radius:6px; margin:10px 0 6px; }
+    .inv-meta-line { font-size:13px; color:#444; line-height:1.8; }
 
-    .inv-table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
-    .inv-table thead tr { background: #191a23; color: white; }
-    .inv-table thead th {
-      padding: 12px 16px; text-align: left;
-      font-size: 12px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.06em;
-    }
-    .inv-table thead th:last-child { text-align: right; }
-    .inv-table tbody tr { border-bottom: 1px solid #f0f0f0; }
-    .inv-table tbody tr:nth-child(even) { background: #fafafa; }
-    .inv-table tbody td { padding: 12px 16px; font-size: 14px; color: #333; }
-    .inv-table tbody td:last-child { text-align: right; font-weight: 600; }
+    .inv-section { margin-bottom:22px; }
+    .inv-section-title { font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:#b9ff66; background:#191a23; padding:5px 14px; border-radius:5px; display:inline-block; margin-bottom:12px; }
 
-    .inv-totals {
-      display: flex; justify-content: flex-end; margin-bottom: 36px;
-    }
-    .inv-totals-box { width: 280px; }
-    .inv-totals-row {
-      display: flex; justify-content: space-between;
-      padding: 8px 0; font-size: 14px; border-bottom: 1px solid #f0f0f0;
-    }
-    .inv-totals-row.total {
-      background: #191a23; color: white; padding: 12px 16px;
-      border-radius: 10px; margin-top: 8px; font-weight: 700; font-size: 16px;
-      border: none;
-    }
-    .inv-totals-row label { color: #888; }
+    .inv-service-name { font-weight:800; font-size:15px; margin-bottom:8px; }
+    .inv-bullets { list-style:none; padding:0; }
+    .inv-bullets li { padding:3px 0 3px 16px; position:relative; font-size:13px; color:#333; }
+    .inv-bullets li::before { content:"-"; position:absolute; left:0; color:#191a23; font-weight:700; }
+    .inv-base-price { margin-top:10px; font-size:14px; }
+    .inv-base-price strong { color:#191a23; }
 
-    .inv-notes {
-      background: #f9f9f9; border-radius: 12px;
-      padding: 16px 20px; margin-bottom: 32px;
-    }
-    .inv-notes h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #888; margin-bottom: 6px; }
-    .inv-notes p { font-size: 13px; color: #555; line-height: 1.6; }
+    /* tables */
+    .inv-table { width:100%; border-collapse:collapse; font-size:13px; margin-bottom:6px; }
+    .inv-table thead tr { background:#191a23; color:white; }
+    .inv-table thead th { padding:10px 14px; text-align:left; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; }
+    .inv-table tbody tr:nth-child(even) { background:#f9f9f9; }
+    .inv-table tbody td { padding:9px 14px; border-bottom:1px solid #eee; color:#333; }
+    .inv-table tfoot td { padding:10px 14px; font-weight:700; }
+    .grand-total-row { background:#b9ff66 !important; }
+    .grand-total-row td { font-weight:800 !important; font-size:14px !important; color:#191a23 !important; }
 
-    .inv-footer {
-      text-align: center; padding-top: 24px;
-      border-top: 1px solid #f0f0f0;
-      font-size: 12px; color: #aaa;
-    }
+    .inv-notes-list { list-style:none; padding:0; }
+    .inv-notes-list li { padding:4px 0; font-size:13px; color:#333; line-height:1.6; }
+    .inv-notes-list li strong { color:#191a23; }
 
-    /* ── Print styles ── */
+    .inv-bank-box { background:#f5f5f5; border-left:4px solid #b9ff66; padding:12px 16px; border-radius:0 8px 8px 0; margin:10px 0; font-size:13px; line-height:1.8; }
+
+    .inv-footer { margin-top:32px; padding-top:16px; border-top:2px solid #191a23; font-size:13px; }
+    .inv-footer strong { font-size:14px; }
+    .inv-footer-line { display:flex; align-items:center; gap:8px; margin-top:4px; color:#444; }
+    .inv-footer-line::before { content:"■"; color:#191a23; font-size:10px; }
+
+    /* ── Print ── */
     @media print {
-      body { background: white; }
-      #login-screen { display: none !important; }
-      .app-header, .form-panel, .preview-toolbar { display: none !important; }
-      #app { display: block !important; }
-      .workspace { display: block; padding: 0; }
-      .preview-panel {
-        box-shadow: none; border-radius: 0;
-        max-height: none; overflow: visible;
-      }
-      #invoice-doc { padding: 32px; }
+      body { background:white; }
+      #login-screen { display:none !important; }
+      .app-bar, .form-panel, .preview-bar { display:none !important; }
+      #app { display:block !important; }
+      .workspace { display:block; padding:0; }
+      .preview-wrap { box-shadow:none; border-radius:0; }
+      #invoice-doc { padding:32px; }
     }
   </style>
 </head>
 <body>
 
-<!-- ── LOGIN ── -->
+<!-- LOGIN -->
 <div id="login-screen">
   <div class="login-box">
-    <div class="logo">Trex<span>Hub</span></div>
-    <p>Invoice Generator — Admin Access</p>
+    <div class="brand">Trex<span>Hub</span></div>
+    <p>Invoice Generator — Admin Only</p>
     <input type="password" id="pwd-input" placeholder="Enter password" />
-    <div class="login-error" id="login-error">Incorrect password. Try again.</div>
+    <div class="login-error" id="login-error">Wrong password. Try again.</div>
     <button onclick="checkPassword()">Enter</button>
   </div>
 </div>
 
-<!-- ── APP ── -->
+<!-- APP -->
 <div id="app">
-  <div class="app-header">
+  <div class="app-bar">
     <div class="brand">Trex<span>Hub</span> — Invoice Generator</div>
-    <button onclick="window.print()">🖨️ Print / Save PDF</button>
+    <div class="app-bar-actions">
+      <button class="btn-reset" onclick="resetForm()">Reset</button>
+      <button class="btn-print" onclick="window.print()">🖨 Print / Save PDF</button>
+    </div>
   </div>
 
   <div class="workspace">
 
     <!-- FORM -->
     <div class="form-panel">
-      <h2>Invoice Details</h2>
+      <h2>Build Your Invoice</h2>
 
-      <div class="form-section">
+      <div class="fsec">
         <h3>Invoice Info</h3>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Invoice Number</label>
-            <input type="text" id="inv-number" value="INV-001" oninput="updatePreview()" />
-          </div>
-          <div class="form-group">
-            <label>Currency</label>
-            <select id="inv-currency" onchange="updatePreview()">
-              <option value="₦">Naira (₦)</option>
-              <option value="$">USD ($)</option>
-              <option value="€">EUR (€)</option>
-              <option value="£">GBP (£)</option>
-            </select>
-          </div>
+        <div class="frow">
+          <div class="fg"><label>Ref No.</label><input id="f-ref" value="TREX/INV/001" oninput="render()" /></div>
+          <div class="fg"><label>Date</label><input type="date" id="f-date" oninput="render()" /></div>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Issue Date</label>
-            <input type="date" id="inv-date" oninput="updatePreview()" />
-          </div>
-          <div class="form-group">
-            <label>Due Date</label>
-            <input type="date" id="inv-due" oninput="updatePreview()" />
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Status</label>
-          <select id="inv-status" onchange="updatePreview()">
-            <option value="Due">Due</option>
-            <option value="Paid">Paid</option>
-            <option value="Overdue">Overdue</option>
+        <div class="fg"><label>Client Name</label><input id="f-client" placeholder="e.g. SAAD" oninput="render()" /></div>
+        <div class="fg"><label>Currency</label>
+          <select id="f-currency" onchange="render()">
+            <option value="$">USD ($)</option>
+            <option value="₦">Naira (₦)</option>
+            <option value="€">EUR (€)</option>
+            <option value="£">GBP (£)</option>
           </select>
         </div>
       </div>
 
-      <div class="form-section">
-        <h3>Bill To (Client)</h3>
-        <div class="form-group">
-          <label>Client Name / Company</label>
-          <input type="text" id="client-name" placeholder="e.g. Acme Ltd" oninput="updatePreview()" />
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="client-email" placeholder="client@email.com" oninput="updatePreview()" />
-        </div>
-        <div class="form-group">
-          <label>Phone</label>
-          <input type="text" id="client-phone" placeholder="+234 800 000 0000" oninput="updatePreview()" />
-        </div>
-        <div class="form-group">
-          <label>Address</label>
-          <textarea id="client-address" rows="2" placeholder="Client address" oninput="updatePreview()"></textarea>
+      <div class="fsec">
+        <h3>Service Description</h3>
+        <div class="fg"><label>Service Name</label><input id="f-svc-name" placeholder="e.g. TikTok Advertising – Standard Plan" oninput="render()" /></div>
+        <div class="fg"><label>Base Price (per month)</label><input type="number" id="f-base-price" value="0" oninput="render()" /></div>
+        <div class="fg"><label>Service Features (one per line)</label>
+          <textarea id="f-features" rows="6" placeholder="Advanced Setup&#10;4 Standard Ads&#10;3 Campaigns&#10;Weekly Report&#10;Audience Research&#10;Conversion Tracking" oninput="render()"></textarea>
         </div>
       </div>
 
-      <div class="form-section">
-        <h3>Services / Items</h3>
-        <div class="items-header">
-          <span>Description</span>
-          <span>Qty</span>
-          <span>Rate</span>
-          <span>Amount</span>
-          <span></span>
-        </div>
-        <div id="items-container"></div>
-        <button class="add-item-btn" onclick="addItem()">+ Add Item</button>
+      <div class="fsec">
+        <h3>Discount Options Table</h3>
+        <div class="disc-hdr"><span>Duration</span><span>Disc %</span><span>Monthly Rate</span><span>Total</span><span></span></div>
+        <div id="disc-container"></div>
+        <button class="add-btn" onclick="addDisc()">+ Add Row</button>
       </div>
 
-      <div class="form-section">
-        <h3>Tax & Discount</h3>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Tax (%)</label>
-            <input type="number" id="inv-tax" value="0" min="0" max="100" oninput="updatePreview()" />
-          </div>
-          <div class="form-group">
-            <label>Discount (%)</label>
-            <input type="number" id="inv-discount" value="0" min="0" max="100" oninput="updatePreview()" />
-          </div>
+      <div class="fsec">
+        <h3>Additional Notes</h3>
+        <div class="fg"><label>Ad Budget Note</label><input id="f-ad-budget" placeholder="e.g. Minimum $150/month (paid directly to TikTok Ads)" oninput="render()" /></div>
+        <div class="fg"><label>Payment Terms</label>
+          <textarea id="f-pay-terms" rows="3" placeholder="50% upfront before campaign setup&#10;50% within 3 days after campaign completion" oninput="render()"></textarea>
         </div>
+        <div class="fg"><label>Start Date Note</label><input id="f-start" value="Upon confirmation and initial payment" oninput="render()" /></div>
       </div>
 
-      <div class="form-section">
-        <h3>Payment & Notes</h3>
-        <div class="form-group">
-          <label>Bank / Payment Details</label>
-          <textarea id="inv-bank" rows="3" placeholder="Bank: GTBank&#10;Account Name: TrexHub Digital&#10;Account Number: 0123456789" oninput="updatePreview()"></textarea>
-        </div>
-        <div class="form-group">
-          <label>Notes</label>
-          <textarea id="inv-notes" rows="2" placeholder="Thank you for your business!" oninput="updatePreview()"></textarea>
-        </div>
+      <div class="fsec">
+        <h3>Bank / Payment Details</h3>
+        <div class="fg"><label>Account Name</label><input id="f-acc-name" oninput="render()" /></div>
+        <div class="fg"><label>Account Number</label><input id="f-acc-num" oninput="render()" /></div>
+        <div class="fg"><label>Bank Name</label><input id="f-bank" oninput="render()" /></div>
+        <div class="fg"><label>Account Officer & Phone</label><input id="f-officer" oninput="render()" /></div>
       </div>
+
+      <div class="fsec">
+        <h3>Summary Table</h3>
+        <div class="item-hdr"><span>Description</span><span>Amount</span><span></span></div>
+        <div id="summary-container"></div>
+        <button class="add-btn" onclick="addSummary()">+ Add Row</button>
+      </div>
+
     </div>
 
     <!-- PREVIEW -->
-    <div class="preview-panel">
-      <div class="preview-toolbar">
+    <div class="preview-wrap">
+      <div class="preview-bar">
         <span>📄 Live Preview</span>
-        <button class="btn-print" onclick="window.print()">Print / Save as PDF</button>
+        <button onclick="window.print()">Print / Save as PDF</button>
       </div>
-      <div id="invoice-doc">
-        <!-- rendered by JS -->
-      </div>
+      <div id="invoice-doc"></div>
     </div>
 
   </div>
 </div>
 
 <script is:inline>
-  const PASSWORD = "trexhub2025";
+  const PWD = "trexhub2025";
 
-  // ── Auth ──
   function checkPassword() {
-    const val = document.getElementById("pwd-input").value;
-    if (val === PASSWORD) {
+    if (document.getElementById("pwd-input").value === PWD) {
       document.getElementById("login-screen").style.display = "none";
       document.getElementById("app").style.display = "block";
       init();
@@ -387,178 +240,196 @@
       document.getElementById("login-error").style.display = "block";
     }
   }
-  document.getElementById("pwd-input").addEventListener("keydown", e => {
-    if (e.key === "Enter") checkPassword();
-  });
+  document.getElementById("pwd-input").addEventListener("keydown", function(e){ if(e.key==="Enter") checkPassword(); });
 
-  // ── Items ──
-  let items = [
-    { desc: "", qty: 1, rate: 0 }
+  // ── State ──
+  var discRows = [
+    { dur:"1 Month",  disc:0,  rate:0, total:0 },
+    { dur:"3 Months", disc:10, rate:0, total:0 },
+    { dur:"6 Months", disc:15, rate:0, total:0 },
+    { dur:"12 Months",disc:20, rate:0, total:0 },
+  ];
+  var summaryRows = [
+    { desc:"Total (1 Month)", amt:0 },
+    { desc:"Ad Budget (Recommended)", amt:0 },
+    { desc:"Grand Total (Estimated)", amt:0, grand:true },
   ];
 
-  function addItem() {
-    items.push({ desc: "", qty: 1, rate: 0 });
-    renderItems();
-    updatePreview();
-  }
+  function addDisc() { discRows.push({dur:"",disc:0,rate:0,total:0}); renderDiscForm(); render(); }
+  function removeDisc(i) { discRows.splice(i,1); renderDiscForm(); render(); }
+  function addSummary() { summaryRows.push({desc:"",amt:0}); renderSummaryForm(); render(); }
+  function removeSummary(i) { summaryRows.splice(i,1); renderSummaryForm(); render(); }
 
-  function removeItem(i) {
-    items.splice(i, 1);
-    renderItems();
-    updatePreview();
-  }
-
-  function renderItems() {
-    const container = document.getElementById("items-container");
-    container.innerHTML = items.map((item, i) => `
-      <div class="item-row">
-        <input type="text" placeholder="Service description" value="${item.desc}"
-          oninput="items[${i}].desc=this.value;updatePreview()" />
-        <input type="number" min="1" value="${item.qty}"
-          oninput="items[${i}].qty=parseFloat(this.value)||0;calcAmount(${i})" />
-        <input type="number" min="0" value="${item.rate}"
-          oninput="items[${i}].rate=parseFloat(this.value)||0;calcAmount(${i})" />
-        <input type="text" id="amount-${i}" readonly value="${fmt(item.qty * item.rate)}" />
-        <button class="remove-btn" onclick="removeItem(${i})">×</button>
-      </div>
-    `).join("");
-  }
-
-  function calcAmount(i) {
-    const el = document.getElementById(`amount-${i}`);
-    if (el) el.value = fmt(items[i].qty * items[i].rate);
-    updatePreview();
-  }
-
-  // ── Format ──
   function fmt(n) {
-    return parseFloat(n || 0).toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    var num = parseFloat(n)||0;
+    return num.toLocaleString("en-US",{minimumFractionDigits:0,maximumFractionDigits:2});
   }
 
-  function getCurrency() {
-    return document.getElementById("inv-currency")?.value || "₦";
+  function cur() { return document.getElementById("f-currency").value || "$"; }
+
+  function calcDiscRates() {
+    var base = parseFloat(document.getElementById("f-base-price").value)||0;
+    discRows.forEach(function(r){
+      var months = parseInt(r.dur)||1;
+      var eff = base * (1 - r.disc/100);
+      r.rate = Math.round(eff);
+      r.total = Math.round(eff * months);
+    });
   }
 
-  // ── Preview ──
-  function updatePreview() {
-    const cur = getCurrency();
-    const number = document.getElementById("inv-number")?.value || "INV-001";
-    const date = document.getElementById("inv-date")?.value || "";
-    const due = document.getElementById("inv-due")?.value || "";
-    const status = document.getElementById("inv-status")?.value || "Due";
-    const clientName = document.getElementById("client-name")?.value || "Client Name";
-    const clientEmail = document.getElementById("client-email")?.value || "";
-    const clientPhone = document.getElementById("client-phone")?.value || "";
-    const clientAddr = document.getElementById("client-address")?.value || "";
-    const taxPct = parseFloat(document.getElementById("inv-tax")?.value) || 0;
-    const discPct = parseFloat(document.getElementById("inv-discount")?.value) || 0;
-    const bank = document.getElementById("inv-bank")?.value || "";
-    const notes = document.getElementById("inv-notes")?.value || "";
+  function renderDiscForm() {
+    var c = document.getElementById("disc-container");
+    c.innerHTML = discRows.map(function(r,i){
+      return '<div class="disc-row">' +
+        '<input value="'+r.dur+'" placeholder="1 Month" oninput="discRows['+i+'].dur=this.value;render()" />' +
+        '<input type="number" value="'+r.disc+'" placeholder="0" oninput="discRows['+i+'].disc=parseFloat(this.value)||0;calcDiscRates();renderDiscForm();render()" />' +
+        '<input readonly value="'+cur()+fmt(r.rate)+'" />' +
+        '<input readonly value="'+cur()+fmt(r.total)+'" />' +
+        '<button class="rm-btn" onclick="removeDisc('+i+')">×</button>' +
+      '</div>';
+    }).join("");
+  }
 
-    const subtotal = items.reduce((s, it) => s + (it.qty * it.rate), 0);
-    const discAmt = subtotal * discPct / 100;
-    const taxAmt = (subtotal - discAmt) * taxPct / 100;
-    const total = subtotal - discAmt + taxAmt;
+  function renderSummaryForm() {
+    var c = document.getElementById("summary-container");
+    c.innerHTML = summaryRows.map(function(r,i){
+      return '<div class="item-row">' +
+        '<input value="'+r.desc+'" placeholder="Description" oninput="summaryRows['+i+'].desc=this.value;render()" />' +
+        '<input type="number" value="'+r.amt+'" placeholder="0" style="grid-column:span 3" oninput="summaryRows['+i+'].amt=parseFloat(this.value)||0;render()" />' +
+        '<button class="rm-btn" onclick="removeSummary('+i+')">×</button>' +
+      '</div>';
+    }).join("");
+  }
 
-    const statusColor = status === "Paid" ? "#22c55e" : status === "Overdue" ? "#ef4444" : "#f59e0b";
+  function render() {
+    calcDiscRates();
+    var c = cur();
+    var ref = document.getElementById("f-ref").value || "TREX/INV/001";
+    var date = document.getElementById("f-date").value;
+    var client = document.getElementById("f-client").value || "Client";
+    var svcName = document.getElementById("f-svc-name").value || "Service Name";
+    var basePrice = parseFloat(document.getElementById("f-base-price").value)||0;
+    var features = (document.getElementById("f-features").value||"").split("\n").filter(function(l){return l.trim();});
+    var adBudget = document.getElementById("f-ad-budget").value;
+    var payTerms = (document.getElementById("f-pay-terms").value||"").split("\n").filter(function(l){return l.trim();});
+    var startNote = document.getElementById("f-start").value;
+    var accName = document.getElementById("f-acc-name").value;
+    var accNum = document.getElementById("f-acc-num").value;
+    var bankName = document.getElementById("f-bank").value;
+    var officer = document.getElementById("f-officer").value;
 
-    const formatDate = d => d ? new Date(d).toLocaleDateString("en-GB", { day:"2-digit", month:"short", year:"numeric" }) : "—";
+    var fmtDate = date ? new Date(date).toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric"}) : "—";
 
-    const rows = items.map(it => `
-      <tr>
-        <td>${it.desc || "—"}</td>
-        <td>${it.qty}</td>
-        <td>${cur}${fmt(it.rate)}</td>
-        <td>${cur}${fmt(it.qty * it.rate)}</td>
-      </tr>
-    `).join("");
+    // discount table rows
+    var discTbody = discRows.map(function(r){
+      return '<tr><td>'+r.dur+'</td><td>'+(r.disc?r.disc+"%":"—")+'</td><td>'+c+fmt(r.rate)+'</td><td>'+c+fmt(r.total)+'</td></tr>';
+    }).join("");
 
-    document.getElementById("invoice-doc").innerHTML = `
-      <div class="inv-header">
-        <div>
-          <div class="inv-brand">Trex<span>Hub</span></div>
-          <div style="font-size:13px;color:#666;margin-top:6px;line-height:1.6">
-            Victoria Island, Lagos, Nigeria<br/>
-            hello@trexhub.ng &nbsp;|&nbsp; +234 8129843426<br/>
-            trexhub.ng
-          </div>
-        </div>
-        <div class="inv-meta">
-          <h1>INVOICE</h1>
-          <div class="inv-number">${number}</div>
-          <div style="margin-top:8px">
-            <span style="background:${statusColor};color:white;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:700">${status}</span>
-          </div>
-          <div class="inv-dates">
-            Issue Date: <strong>${formatDate(date)}</strong><br/>
-            Due Date: <strong>${formatDate(due)}</strong>
-          </div>
-        </div>
-      </div>
+    // summary rows
+    var summaryTbody = summaryRows.map(function(r){
+      var cls = r.grand ? ' class="grand-total-row"' : '';
+      return '<tr'+cls+'><td>'+r.desc+'</td><td>'+c+fmt(r.amt)+'</td></tr>';
+    }).join("");
 
-      <div class="inv-parties">
-        <div class="inv-party">
-          <h4>From</h4>
-          <p class="name">TrexHub Digital Marketing Agency</p>
-          <p>Victoria Island, Lagos, Nigeria<br/>hello@trexhub.ng<br/>+234 8129843426</p>
-        </div>
-        <div class="inv-party">
-          <h4>Bill To</h4>
-          <p class="name">${clientName}</p>
-          <p>${[clientEmail, clientPhone, clientAddr].filter(Boolean).join("<br/>")}</p>
-        </div>
-      </div>
+    // features bullets
+    var bullets = features.map(function(f){ return '<li>'+f+'</li>'; }).join("");
 
-      <table class="inv-table">
-        <thead>
-          <tr>
-            <th>Description</th>
-            <th>Qty</th>
-            <th>Rate</th>
-            <th>Amount</th>
-          </tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>
+    // payment terms
+    var termsList = payTerms.map(function(t){ return '<li>• '+t+'</li>'; }).join("");
 
-      <div class="inv-totals">
-        <div class="inv-totals-box">
-          <div class="inv-totals-row"><label>Subtotal</label><span>${cur}${fmt(subtotal)}</span></div>
-          ${discPct > 0 ? `<div class="inv-totals-row"><label>Discount (${discPct}%)</label><span>− ${cur}${fmt(discAmt)}</span></div>` : ""}
-          ${taxPct > 0 ? `<div class="inv-totals-row"><label>Tax (${taxPct}%)</label><span>${cur}${fmt(taxAmt)}</span></div>` : ""}
-          <div class="inv-totals-row total"><label>Total Due</label><span>${cur}${fmt(total)}</span></div>
-        </div>
-      </div>
+    document.getElementById("invoice-doc").innerHTML =
+      '<div class="inv-top">' +
+        '<div class="inv-logo">Trex<span>Hub</span></div>' +
+        '<div class="inv-logo-sub">Digital Marketing Agency</div>' +
+        '<div class="inv-title">Official Quotation / Invoice</div>' +
+        '<div class="inv-meta-line">' +
+          'Date: <strong>'+fmtDate+'</strong> &nbsp;&nbsp; ' +
+          'Ref No: <strong>'+ref+'</strong> &nbsp;&nbsp; ' +
+          'Client: <strong>'+client+'</strong>' +
+        '</div>' +
+      '</div>' +
 
-      ${bank ? `
-        <div class="inv-notes">
-          <h4>Payment Details</h4>
-          <p style="white-space:pre-line">${bank}</p>
-        </div>
-      ` : ""}
+      '<div class="inv-section">' +
+        '<div class="inv-section-title">Service Description</div>' +
+        '<div class="inv-service-name">'+svcName+'</div>' +
+        (bullets ? '<ul class="inv-bullets">'+bullets+'</ul>' : '') +
+        (basePrice ? '<p class="inv-base-price"><strong>Base Price:</strong> '+c+fmt(basePrice)+' / Month</p>' : '') +
+      '</div>' +
 
-      ${notes ? `
-        <div class="inv-notes">
-          <h4>Notes</h4>
-          <p>${notes}</p>
-        </div>
-      ` : ""}
+      (discRows.length ?
+      '<div class="inv-section">' +
+        '<div class="inv-section-title">Discount Options (Long-Term Commitment)</div>' +
+        '<table class="inv-table">' +
+          '<thead><tr><th>Duration</th><th>Discount</th><th>Effective Monthly Rate</th><th>Total Cost</th></tr></thead>' +
+          '<tbody>'+discTbody+'</tbody>' +
+        '</table>' +
+      '</div>' : '') +
 
-      <div class="inv-footer">
-        Thank you for choosing TrexHub. &nbsp;|&nbsp; trexhub.ng &nbsp;|&nbsp; hello@trexhub.ng
-      </div>
-    `;
+      '<div class="inv-section">' +
+        '<div class="inv-section-title">Additional Notes</div>' +
+        '<ul class="inv-notes-list">' +
+          (adBudget ? '<li><strong>Recommended Ad Budget:</strong> '+adBudget+'</li>' : '') +
+          (termsList ? '<li><strong>Payment Terms:</strong><ul class="inv-notes-list" style="padding-left:12px">'+termsList+'</ul></li>' : '') +
+          '<li><strong>Payment Options:</strong> Bank Transfer</li>' +
+        '</ul>' +
+        (accName || accNum || bankName ?
+        '<div class="inv-bank-box">' +
+          '<strong>Account Details:</strong><br/>' +
+          (accName ? 'Account Name: <strong>'+accName+'</strong><br/>' : '') +
+          (accNum ? 'Account Number: <strong>'+accNum+'</strong><br/>' : '') +
+          (bankName ? 'Bank Name: <strong>'+bankName+'</strong><br/>' : '') +
+          (officer ? 'Account Officer: '+officer : '') +
+        '</div>' : '') +
+        (startNote ? '<ul class="inv-notes-list"><li><strong>Start Date:</strong> '+startNote+'</li></ul>' : '') +
+      '</div>' +
+
+      (summaryRows.length ?
+      '<div class="inv-section">' +
+        '<div class="inv-section-title">Summary</div>' +
+        '<table class="inv-table">' +
+          '<thead><tr><th>Description</th><th>Amount</th></tr></thead>' +
+          '<tbody>'+summaryTbody+'</tbody>' +
+        '</table>' +
+      '</div>' : '') +
+
+      '<div class="inv-footer">' +
+        '<strong>Prepared by:</strong><br/>' +
+        'TrexHub Digital Marketing Agency' +
+        '<div class="inv-footer-line">+234 8129843426</div>' +
+        '<div class="inv-footer-line">www.trexhub.ng</div>' +
+        '<div class="inv-footer-line">hello@trexhub.ng</div>' +
+      '</div>';
+
+    // keep form discount display in sync
+    renderDiscForm();
+  }
+
+  function resetForm() {
+    if(!confirm("Reset all fields?")) return;
+    document.getElementById("f-ref").value = "TREX/INV/001";
+    document.getElementById("f-client").value = "";
+    document.getElementById("f-svc-name").value = "";
+    document.getElementById("f-base-price").value = "0";
+    document.getElementById("f-features").value = "";
+    document.getElementById("f-ad-budget").value = "";
+    document.getElementById("f-pay-terms").value = "";
+    document.getElementById("f-start").value = "Upon confirmation and initial payment";
+    document.getElementById("f-acc-name").value = "";
+    document.getElementById("f-acc-num").value = "";
+    document.getElementById("f-bank").value = "";
+    document.getElementById("f-officer").value = "";
+    discRows = [{dur:"1 Month",disc:0,rate:0,total:0},{dur:"3 Months",disc:10,rate:0,total:0},{dur:"6 Months",disc:15,rate:0,total:0},{dur:"12 Months",disc:20,rate:0,total:0}];
+    summaryRows = [{desc:"Total (1 Month)",amt:0},{desc:"Ad Budget (Recommended)",amt:0},{desc:"Grand Total (Estimated)",amt:0,grand:true}];
+    renderSummaryForm();
+    render();
   }
 
   function init() {
-    // Set today's date and due date (+30 days)
-    const today = new Date();
-    const due = new Date();
-    due.setDate(due.getDate() + 30);
-    document.getElementById("inv-date").value = today.toISOString().split("T")[0];
-    document.getElementById("inv-due").value = due.toISOString().split("T")[0];
-    renderItems();
-    updatePreview();
+    var today = new Date().toISOString().split("T")[0];
+    document.getElementById("f-date").value = today;
+    renderDiscForm();
+    renderSummaryForm();
+    render();
   }
 </script>
 
