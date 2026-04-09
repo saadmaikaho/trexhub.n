@@ -133,7 +133,7 @@
 <!-- LOGIN -->
 <div id="login-screen">
   <div class="login-box">
-    <div class="brand">Trex<span>Hub</span></div>
+    <img src="/Logo.svg" alt="TrexHub" style="height:36px;margin-bottom:10px;" />
     <p>Invoice Generator — Admin Only</p>
     <input type="password" id="pwd-input" placeholder="Enter password" />
     <div class="login-error" id="login-error">Wrong password. Try again.</div>
@@ -144,7 +144,10 @@
 <!-- APP -->
 <div id="app">
   <div class="app-bar">
-    <div class="brand">Trex<span>Hub</span> — Invoice Generator</div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <img src="/Logo.svg" alt="TrexHub" style="height:28px;filter:brightness(0) invert(1);" />
+      <span style="color:white;font-size:14px;font-weight:600;">Invoice Generator</span>
+    </div>
     <div class="app-bar-actions">
       <button class="btn-reset" onclick="resetForm()">Reset</button>
       <button class="btn-print" onclick="window.print()">🖨 Print / Save PDF</button>
@@ -339,7 +342,7 @@
 
     document.getElementById("invoice-doc").innerHTML =
       '<div class="inv-top">' +
-        '<div class="inv-logo">Trex<span>Hub</span></div>' +
+        '<img src="/Logo.svg" alt="TrexHub" style="height:44px;margin-bottom:6px;" />' +
         '<div class="inv-logo-sub">Digital Marketing Agency</div>' +
         '<div class="inv-title">Official Quotation / Invoice</div>' +
         '<div class="inv-meta-line">' +
@@ -393,6 +396,7 @@
       '</div>' : '') +
 
       '<div class="inv-footer">' +
+        '<img src="/Logo.svg" alt="TrexHub" style="height:32px;margin-bottom:8px;" /><br/>' +
         '<strong>Prepared by:</strong><br/>' +
         'TrexHub Digital Marketing Agency' +
         '<div class="inv-footer-line">+234 8129843426</div>' +
