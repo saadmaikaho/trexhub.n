@@ -1,0 +1,17 @@
+---
+import Accordion from "../ui/Accordion.astro";
+import SectionTitle from "../ui/SectionTitle.astro";
+import Section from "./Section.astro";
+
+const description = "Our proven 6-step process for turning your marketing into a predictable growth engine";
+---
+
+<Section id="process">
+  <div class="mt-[140px]">
+    <SectionTitle
+      sectionTitle="How We Work"
+      description={description}
+    />
+    <Accordion />
+  </div>
+</Section>

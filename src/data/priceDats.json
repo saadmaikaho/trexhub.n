@@ -1,0 +1,32 @@
+[
+    {
+        "title": "Starter",
+        "description": "Perfect for small businesses and startups ready to build their online presence and generate their first leads.",
+        "price": 997,
+        "devCount": "1 active channel",
+        "support": "Email support",
+        "update": "Monthly report",
+        "action": "Get Started",
+        "link": "/#contact"
+    },
+    {
+        "title": "Growth",
+        "description": "For businesses ready to scale with multi-channel campaigns, lead funnels, and dedicated account management.",
+        "price": 2497,
+        "devCount": "3 active channels",
+        "support": "Priority support",
+        "update": "Bi-weekly report",
+        "action": "Get Started",
+        "link": "/#contact"
+    },
+    {
+        "title": "Scale",
+        "description": "Full-service digital marketing for high-growth companies that need aggressive, data-driven campaigns across all channels.",
+        "price": 4997,
+        "devCount": "All channels",
+        "support": "Dedicated manager",
+        "update": "Weekly report",
+        "action": "Book a Call",
+        "link": "/#contact"
+    }
+]

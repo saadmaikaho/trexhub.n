@@ -1,0 +1,92 @@
+---
+import SectionTitle from "../ui/SectionTitle.astro";
+import TeamCard from "../ui/TeamCard.astro";
+import Section from "./Section.astro";
+
+const description =
+  "The performance marketers, strategists, and creatives behind your growth";
+
+// Team images
+import p1 from "../../assets/team/t1.png";
+import p2 from "../../assets/team/t2.png";
+import p3 from "../../assets/team/t3.png";
+import p4 from "../../assets/team/t4.png";
+import p5 from "../../assets/team/t5.png";
+import p6 from "../../assets/team/t6.png";
+
+const team = [
+  {
+    pic: p1,
+    name: "Alex Carter",
+    role: "CEO & Growth Strategist",
+    description:
+      "12+ years in digital marketing. Specializes in building full-funnel growth systems for B2B and e-commerce brands.",
+    link: "https://linkedin.com",
+  },
+  {
+    pic: p2,
+    name: "Nadia Osei",
+    role: "Head of Paid Advertising",
+    description:
+      "8+ years managing Facebook and Google Ads. Has overseen $10M+ in ad spend with consistent 5x+ ROAS for clients.",
+    link: "https://linkedin.com",
+  },
+  {
+    pic: p3,
+    name: "Ryan Patel",
+    role: "SEO Director",
+    description:
+      "6+ years in technical and content SEO. Expert in ranking competitive keywords and driving sustainable organic traffic growth.",
+    link: "https://linkedin.com",
+  },
+  {
+    pic: p4,
+    name: "Leila Hassan",
+    role: "Social Media Lead",
+    description:
+      "5+ years building brand presence across Instagram, LinkedIn, and TikTok. Focused on content that converts, not just content that looks good.",
+    link: "https://linkedin.com",
+  },
+  {
+    pic: p5,
+    name: "Marcus Webb",
+    role: "Lead Generation Specialist",
+    description:
+      "4+ years designing lead funnels and qualification systems. Helps clients turn cold traffic into warm, sales-ready prospects.",
+    link: "https://linkedin.com",
+  },
+  {
+    pic: p6,
+    name: "Sofia Reyes",
+    role: "Content & Email Strategist",
+    description:
+      "3+ years crafting high-converting email sequences and content strategies that nurture leads and drive repeat revenue.",
+    link: "https://linkedin.com",
+  },
+];
+---
+
+<Section id="about">
+  <div class="mt-[140px]">
+    <SectionTitle sectionTitle="Our Team" description={description} />
+    <div
+      class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 grid-rows-2 gap-10"
+    >
+      {
+        team.map((member, index) => (
+          <TeamCard
+            key={index}
+            pic={member.pic}
+            name={member.name}
+            role={member.role}
+            description={member.description}
+            link={member.link}
+          />
+        ))
+      }
+    </div>
+    <div class="flex justify-end mt-10">
+      <a href="/about" class="btn-primary">Meet the full team</a>
+    </div>
+  </div>
+</Section>

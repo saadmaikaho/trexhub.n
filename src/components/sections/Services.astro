@@ -1,0 +1,105 @@
+---
+import SectionTitle from "../ui/SectionTitle.astro";
+import ServiceCard from "../ui/ServiceCard.astro";
+import Section from "./Section.astro";
+
+import c1 from "../../assets/pics/card-pic1.png";
+import c2 from "../../assets/pics/card-pic2.png";
+import c3 from "../../assets/pics/card-pic3.png";
+import c4 from "../../assets/pics/card-pic4.png";
+import c5 from "../../assets/pics/card-pic5.png";
+import c6 from "../../assets/pics/card-pic6.png";
+
+const cards = [
+  {
+    index: 1,
+    titleTop: "Search Engine",
+    titleBottom: "Optimization (SEO)",
+    img: c1,
+    alt: "SEO Service",
+    link: "/services/seo",
+  },
+  {
+    index: 2,
+    titleTop: "Facebook & Instagram",
+    titleBottom: "Ads Management",
+    img: c2,
+    alt: "Facebook & Instagram Ads",
+    link: "/services/facebook-instagram-ads",
+  },
+  {
+    index: 3,
+    titleTop: "Google Ads &",
+    titleBottom: "PPC Management",
+    img: c3,
+    alt: "Google Ads & PPC",
+    link: "/services/google-ads-ppc",
+  },
+  {
+    index: 1,
+    titleTop: "Social Media",
+    titleBottom: "Marketing & Management",
+    img: c4,
+    alt: "Social Media Marketing",
+    link: "/services/social-media-marketing",
+  },
+  {
+    index: 2,
+    titleTop: "Email & WhatsApp",
+    titleBottom: "Marketing",
+    img: c5,
+    alt: "Email & WhatsApp Marketing",
+    link: "/services/email-whatsapp-marketing",
+  },
+  {
+    index: 3,
+    titleTop: "Growth Marketing &",
+    titleBottom: "Lead Generation",
+    img: c6,
+    alt: "Growth Marketing & Lead Generation",
+    link: "/services/growth-marketing-lead-generation",
+  },
+];
+
+const description =
+  "From paid ads to SEO and social media, every TrexHub service is built to take you from being seen to being chosen — and from leads to loyal customers.";
+---
+
+<Section id="services">
+  <div class="mt-[140px] mb-5">
+    <SectionTitle sectionTitle="Our Services" description={description} />
+    <div class="grid lg:grid-cols-2 lg:grid-rows-3 gap-10">
+      {
+        cards.map((card) => (
+          <ServiceCard
+            index={card.index}
+            titleTop={card.titleTop}
+            titleBottom={card.titleBottom}
+            img={card.img}
+            alt={card.alt}
+            link={card.link}
+          />
+        ))
+      }
+    </div>
+
+    <!-- Industries we serve -->
+    <div class="mt-20 bg-[#F3F3F3] rounded-[45px] p-10 md:p-16">
+      <h3 class="text-2xl font-medium mb-2 text-center">Industries We Serve</h3>
+      <p class="text-center text-gray-600 mb-10">From Lagos to the rest of Nigeria — we build custom strategies for businesses across every major industry</p>
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        {[
+          "Real Estate & Property", "E-commerce & Retail", "Oil & Gas", "Fintech & Banking",
+          "Small & Medium Businesses", "Startups & Tech", "Car Dealerships", "Fashion & Beauty",
+          "Energy & Solar", "Agriculture & Agritech", "Hospitality & Food", "Events & Entertainment",
+          "Health & Wellness", "Logistics & Transport", "Education & EdTech", "NGOs & Nonprofits"
+        ].map((industry) => (
+          <div class="flex items-center gap-2 bg-white rounded-xl px-4 py-3 shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-[#b9ff66] flex-shrink-0"></span>
+            <span class="text-sm font-medium">{industry}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</Section>

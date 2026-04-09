@@ -1,0 +1,196 @@
+---
+import { Image } from "astro:assets";
+import decorForm from "../../assets/pics/contact-pic.png";
+
+// Web3Forms — free service that emails you form submissions
+// Steps to activate:
+// 1. Go to https://web3forms.com
+// 2. Enter your email address and click "Create Access Key"
+// 3. Copy the access key and replace YOUR_ACCESS_KEY_HERE below
+const WEB3FORMS_ACCESS_KEY = "2f7fdf41-fcb9-4473-a878-ccb60f19c039";
+---
+
+<div class="flex relative justify-start items-center p-[60px] bg-[#F3F3F3] rounded-[45px] overflow-hidden">
+  <form
+    id="contact-form"
+    class="bg-gray sm:p-6 h-full w-full lg:max-w-lg"
+    method="POST"
+    action="https://api.web3forms.com/submit"
+  >
+    <!-- Web3Forms hidden fields -->
+    <input type="hidden" name="access_key" value={WEB3FORMS_ACCESS_KEY} />
+    <input type="hidden" name="subject" value="New TrexHub Contact Form Submission" />
+    <input type="hidden" name="from_name" value="TrexHub Website" />
+    <input type="checkbox" name="botcheck" class="hidden" style="display: none;" />
+
+    <!-- Intent selector -->
+    <div class="flex flex-col sm:flex-row gap-[35px] sm:items-center mb-10">
+      <div class="flex items-center gap-[14px]">
+        <input type="radio" id="radio1" name="intent" value="Say Hi" class="form-radio" checked />
+        <label for="radio1" class="text-black cursor-pointer">Say Hi</label>
+      </div>
+      <div class="flex items-center gap-[14px]">
+        <input type="radio" id="radio2" name="intent" value="Get a Quote" class="form-radio" />
+        <label for="radio2" class="text-black cursor-pointer">Get a Quote</label>
+      </div>
+      <div class="flex items-center gap-[14px]">
+        <input type="radio" id="radio3" name="intent" value="Book a Strategy Call" class="form-radio" />
+        <label for="radio3" class="text-black cursor-pointer">Book a Call</label>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <label for="name" class="block text-black mb-2">Full Name*</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Your full name"
+        required
+        class="w-full px-[30px] py-[18px] border border-black rounded-[14px] text-black outline-none focus:border-[#b9ff66] transition-colors"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="email" class="block text-black mb-2">Email Address*</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="your@email.com"
+        required
+        class="w-full px-[30px] py-[18px] border border-black rounded-[14px] text-black outline-none focus:border-[#b9ff66] transition-colors"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="phone" class="block text-black mb-2">Active Phone Number* <span class="text-gray-500 text-sm font-normal">(WhatsApp preferred)</span></label>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        placeholder="+234 800 000 0000"
+        required
+        class="w-full px-[30px] py-[18px] border border-black rounded-[14px] text-black outline-none focus:border-[#b9ff66] transition-colors"
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="business" class="block text-black mb-2">Business / Company Name</label>
+      <input
+        type="text"
+        id="business"
+        name="business"
+        placeholder="Your business name"
+        class="w-full px-[30px] py-[18px] border border-black rounded-[14px] text-black outline-none focus:border-[#b9ff66] transition-colors"
+      />
+    </div>
+
+    <div class="mb-6">
+      <label for="message" class="block text-black mb-2">Message*</label>
+      <textarea
+        id="message"
+        name="message"
+        rows="4"
+        placeholder="Tell us about your business and what you're looking to achieve..."
+        required
+        class="w-full px-[30px] py-[18px] border border-black rounded-[14px] text-black outline-none focus:border-[#b9ff66] transition-colors resize-none"
+      ></textarea>
+    </div>
+
+    <!-- Success / error messages -->
+    <div id="form-success" class="hidden mb-4 p-4 bg-[#b9ff66] text-black rounded-xl text-sm font-medium">
+      Message sent! We'll get back to you within 24 hours.
+    </div>
+    <div id="form-error" class="hidden mb-4 p-4 bg-red-100 text-red-700 rounded-xl text-sm font-medium">
+      Something went wrong. Please try again or email us directly at hello@trexhub.com
+    </div>
+
+    <button type="submit" id="submit-btn" class="btn-primary w-full">
+      Send Message
+    </button>
+
+    <p class="text-xs text-gray-500 mt-3 text-center">We respond within 24 hours. Your info is never shared.</p>
+  </form>
+
+  <picture class="absolute right-[-25%] top-[2%] bottom-[2%] hidden lg:block">
+    <Image src={decorForm} alt="Contact TrexHub" />
+  </picture>
+</div>
+
+<style>
+  .form-radio {
+    appearance: none;
+    width: 24px;
+    height: 24px;
+    border: 1px solid #000;
+    border-radius: 50%;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .form-radio::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #b9ff66;
+    transform: scale(0);
+    transition: transform 0.15s ease-in-out;
+  }
+  .form-radio:checked::before {
+    transform: scale(0.6);
+  }
+</style>
+
+<script>
+  async function handleFormSubmit() {
+    const form = document.getElementById("contact-form") as HTMLFormElement;
+    const successMsg = document.getElementById("form-success");
+    const errorMsg = document.getElementById("form-error");
+    const submitBtn = document.getElementById("submit-btn") as HTMLButtonElement;
+
+    if (!form) return;
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      submitBtn.textContent = "Sending...";
+      submitBtn.disabled = true;
+
+      const formData = new FormData(form);
+      const object = Object.fromEntries(formData);
+      const json = JSON.stringify(object);
+
+      try {
+        const res = await fetch("https://api.web3forms.com/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: json,
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          successMsg?.classList.remove("hidden");
+          errorMsg?.classList.add("hidden");
+          form.reset();
+        } else {
+          throw new Error("Submission failed");
+        }
+      } catch {
+        errorMsg?.classList.remove("hidden");
+        successMsg?.classList.add("hidden");
+      } finally {
+        submitBtn.textContent = "Send Message";
+        submitBtn.disabled = false;
+      }
+    });
+  }
+
+  handleFormSubmit();
+  document.addEventListener("astro:after-swap", handleFormSubmit);
+</script>

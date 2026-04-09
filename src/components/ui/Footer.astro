@@ -1,0 +1,126 @@
+---
+import { Image } from "astro:assets";
+import Facebook from "../../assets/facebook.svg";
+import Linkedin from "../../assets/linkedin.svg";
+import Logo from "../../assets/logo-alt.svg";
+import Twitter from "../../assets/twitter.svg";
+import Instagram from "../../assets/instagram.svg";
+
+const socialLinks = [
+  { name: "Facebook", src: Facebook, link: "https://facebook.com" },
+  { name: "Instagram", src: Instagram, link: "https://instagram.com" },
+  { name: "Linkedin", src: Linkedin, link: "https://linkedin.com" },
+  { name: "Twitter", src: Twitter, link: "https://twitter.com" },
+];
+
+const marketingServices = [
+  { name: "Social Media Marketing", href: "/services/social-media-marketing" },
+  { name: "Growth Marketing Services", href: "/services/growth-marketing-lead-generation" },
+  { name: "Social Media Advertising", href: "/services/facebook-instagram-ads" },
+  { name: "SEO Services", href: "/services/seo" },
+  { name: "Digital Marketing Services", href: "/services" },
+  { name: "Email Marketing Services", href: "/services/email-whatsapp-marketing" },
+  { name: "Ecommerce Marketing", href: "/services" },
+  { name: "PPC Management Services", href: "/services/google-ads-ppc" },
+  { name: "WhatsApp Marketing", href: "/services/email-whatsapp-marketing" },
+];
+
+const agencyServices = [
+  { name: "Facebook Advertising Agency", href: "/services/facebook-instagram-ads" },
+  { name: "Instagram Ads Agency", href: "/services/facebook-instagram-ads" },
+  { name: "Google Ads Agency", href: "/services/google-ads-ppc" },
+  { name: "TikTok Ads Agency", href: "/services/social-media-marketing" },
+  { name: "Social Media Marketing Agency", href: "/services/social-media-marketing" },
+  { name: "PPC Paid Search Agency", href: "/services/google-ads-ppc" },
+  { name: "SEO Agency", href: "/services/seo" },
+  { name: "Email Marketing Agency", href: "/services/email-whatsapp-marketing" },
+];
+
+const company = [
+  { name: "About Us", href: "/about" },
+  { name: "Contact Us", href: "/#contact" },
+  { name: "Pricing", href: "/pricing" },
+  { name: "Case Studies", href: "/#cases" },
+  { name: "Blog", href: "/articles" },
+];
+---
+
+<section class="sm:px-5">
+  <div class="w-full max-w-[1240px] mx-auto">
+    <div class="px-[15px] bg-dark text-gray py-[55px] lg:px-[60px] sm:rounded-t-[45px]">
+
+      <!-- Top row: logo + social -->
+      <div class="flex flex-col lg:flex-row gap-7 items-center justify-between mb-12">
+        <a href="/" class="flex items-center gap-3">
+          <Image src={Logo} alt="TrexHub Logo" />
+          <span class="text-2xl font-medium text-white">TrexHub</span>
+        </a>
+        <ul class="flex gap-5">
+          {socialLinks.map((s) => (
+            <li>
+              <a href={s.link} target="_blank" rel="noopener noreferrer" aria-label={s.name}>
+                <Image src={s.src} alt={s.name} class="w-6 h-6" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Multi-column links -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-12">
+        <!-- Marketing Services -->
+        <div>
+          <h4 class="text-white font-medium uppercase tracking-widest text-sm mb-5">Marketing Services</h4>
+          <ul class="flex flex-col gap-3">
+            {marketingServices.map((l) => (
+              <li><a href={l.href} class="text-gray-400 hover:text-[#b9ff66] transition-colors text-sm">{l.name}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Agency Services -->
+        <div>
+          <h4 class="text-white font-medium uppercase tracking-widest text-sm mb-5">Agency Services</h4>
+          <ul class="flex flex-col gap-3">
+            {agencyServices.map((l) => (
+              <li><a href={l.href} class="text-gray-400 hover:text-[#b9ff66] transition-colors text-sm">{l.name}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Company -->
+        <div>
+          <h4 class="text-white font-medium uppercase tracking-widest text-sm mb-5">Company</h4>
+          <ul class="flex flex-col gap-3">
+            {company.map((l) => (
+              <li><a href={l.href} class="text-gray-400 hover:text-[#b9ff66] transition-colors text-sm">{l.name}</a></li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Contact -->
+        <div>
+          <h4 class="text-white font-medium uppercase tracking-widest text-sm mb-5">Contact Us</h4>
+          <ul class="flex flex-col gap-3 text-sm text-gray-400">
+            <li>hello@trexhub.com</li>
+            <li>+234 800 123 4567</li>
+            <li>Victoria Island,<br/>Lagos, Nigeria</li>
+          </ul>
+          <a href="/#contact" class="mt-6 inline-block px-6 py-3 bg-[#b9ff66] text-black rounded-xl font-medium text-sm hover:bg-white transition-colors">
+            Book a Free Call
+          </a>
+        </div>
+      </div>
+
+      <div class="h-[1px] bg-gray opacity-20 mb-5"></div>
+      <div class="flex flex-col md:flex-row justify-between items-center gap-2 text-sm text-gray-500">
+        <span>© 2025 TrexHub Digital Marketing Agency. All rights reserved.</span>
+        <span class="flex gap-4">
+          <a href="/privacy-policy" class="hover:text-[#b9ff66] transition-colors">Privacy Policy</a>
+          <a href="/terms-of-service" class="hover:text-[#b9ff66] transition-colors">Terms of Service</a>
+        </span>
+      </div>
+
+    </div>
+  </div>
+</section>

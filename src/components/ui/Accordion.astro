@@ -1,0 +1,48 @@
+---
+import AccordionItem from "./AccordionItem.astro";
+
+const content = [
+{
+  index: 1,
+  title: "Discovery & Strategy",
+  description: "We start by getting deep into your business — your goals, target audience, competitors, and current marketing performance. From this, we build a custom growth strategy tailored to your industry and budget. No cookie-cutter plans, just a clear roadmap built around your specific objectives."
+},
+{
+  index: 2,
+  title: "Audience Research & Targeting",
+  description: "We identify exactly who your ideal customers are — their demographics, behaviors, pain points, and where they spend time online. This precision targeting ensures every dollar of your ad spend reaches people who are most likely to convert, not just browse."
+},
+{
+  index: 3,
+  title: "Campaign Setup & Launch",
+  description: "Our team builds and launches your campaigns across the right channels — Facebook, Instagram, Google, or organic SEO. We craft compelling ad creatives, landing pages, and copy designed to stop the scroll and drive action. Everything is set up for tracking from day one."
+},
+{
+  index: 4,
+  title: "Lead Qualification & Follow-Up",
+  description: "Not all leads are equal. We implement qualification systems to filter out low-intent contacts so your sales team only spends time on real prospects. We also set up automated follow-up sequences — email, SMS, or retargeting — to nurture leads until they're ready to buy."
+},
+{
+  index: 5,
+  title: "Optimization & Scaling",
+  description: "Once campaigns are live, we continuously monitor performance data — CTR, CPA, ROAS, conversion rates — and make data-backed adjustments. What's working gets scaled. What isn't gets fixed or cut. This iterative process is how we consistently improve results over time."
+},
+{
+  index: 6,
+  title: "Reporting & Growth Review",
+  description: "You get clear, jargon-free reports showing exactly what's happening with your campaigns and what it means for your business. We hold regular strategy reviews to discuss results, share insights, and plan the next phase of growth together."
+}
+];
+---
+
+{
+  content.map((item) => {
+    return (
+      <AccordionItem
+        index={item.index}
+        title={item.title}
+        description={item.description}
+      />
+    );
+  })
+}
